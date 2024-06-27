@@ -2,7 +2,7 @@ import argilla as rg
 import pandas as pd
 from argilla._constants import DEFAULT_API_KEY
 
-df = pd.read_csv("rag_generated_titles.csv")
+df = pd.read_csv("finetune_generated_titles.csv")
 
 game_titles, game_descriptions, age_ratings, tags, generated_game_titles = (
     df["Game "].to_list(),
@@ -114,8 +114,8 @@ def create_and_push_record(
     print("Dataset pushed successfully!")
 
 
-# dataset = create_dataset("argilla-title-rag", "argilla")
+dataset = create_dataset("argilla-title-finetuned", "argilla")
 
 create_and_push_record(
-    game_titles, game_descriptions, age_ratings, tags, generated_game_titles, "argilla-title-rag", "argilla"
+    game_titles, game_descriptions, age_ratings, tags, generated_game_titles, "argilla-title-finetuned", "argilla"
 )

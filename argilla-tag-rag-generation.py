@@ -2,14 +2,14 @@ import argilla as rg
 import pandas as pd
 from argilla._constants import DEFAULT_API_KEY
 
-df = pd.read_csv("rag_generated_tags.csv")
+df = pd.read_csv("finetune_generated_tags.csv")
 
 game_titles, game_descriptions, age_ratings, tags, generated_tags = (
     df["Game "].to_list(),
     df["Description"].to_list(),
     df["Age Rating"].to_list(),
     df["Tags"].to_list(),
-    df["Generated Tag"].to_list(),
+    df["Generated Tags"].to_list(),
 )
 
 api_url = "https://argilla.lmnorg.xyz/"
@@ -32,7 +32,7 @@ def create_dataset(dataset_name: str, workspace_name: str):
             ),
             rg.TextField(
                 name="game_description",
-                title="Machine Generated Description",
+                title="Game Description",
                 use_markdown=True,
             ),
             rg.TextField(
@@ -120,7 +120,7 @@ def create_and_push_record(
     print("Dataset pushed successfully!")
 
 
-dataset = create_dataset("argilla-tags-rag", "argilla")
+dataset = create_dataset("argilla-tags-finetuned", "argilla")
 
 create_and_push_record(
     game_titles,
@@ -128,6 +128,6 @@ create_and_push_record(
     age_ratings,
     tags,
     generated_tags,
-    "argilla-tags-rag",
+    "argilla-tags-finetuned",
     "argilla",
 )
