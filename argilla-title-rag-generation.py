@@ -135,7 +135,3 @@ dataset = create_dataset("argilla-title-rag", "argilla")
 create_and_push_record(
     game_titles, game_descriptions, age_ratings, tags, "argilla-title-rag", "argilla"
 )
-
-
-# Code ended
-
