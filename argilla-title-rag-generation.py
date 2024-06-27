@@ -2,7 +2,7 @@ import argilla as rg
 import pandas as pd
 from argilla._constants import DEFAULT_API_KEY
 
-df = pd.read_csv("test.csv")
+df = pd.read_csv("evalset.csv")
 
 game_titles, game_descriptions, age_ratings, tags = (
     df["Game "].to_list(),
