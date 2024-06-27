@@ -26,13 +26,14 @@ Based on the above game data, for this game description, age rating and tags gen
 """
 
 for index, row in test_df.iterrows():
-    age_rating = row.iloc[2]
+    age_rating = row['Age Rating']
     filtered_df = train_df[train_df['Age Rating'] == age_rating]
     retrieved_text = filtered_df.to_string()
-    input_text = row.iloc[[1, 2, 3]].to_string()
-    prompt = base_prompt.format(retrieved_text,input_text)
-    print("Actual Title : ",row.iloc[0])
-    print("Generated Titles :\n",rag_flow(prompt))
+    input_text = row[['Description', 'Age Rating', 'Tags']].to_string(index=False, header=False)
+    prompt = base_prompt.format(retrieved_text, input_text)
+
+    print("Actual Title:", row['Game '])
+    print("Generated Titles:\n", rag_flow(prompt))
 
 
 
