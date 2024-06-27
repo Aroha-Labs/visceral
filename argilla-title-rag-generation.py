@@ -2,13 +2,14 @@ import argilla as rg
 import pandas as pd
 from argilla._constants import DEFAULT_API_KEY
 
-df = pd.read_csv("evalset.csv")
+df = pd.read_csv("rag_generated_titles.csv")
 
-game_titles, game_descriptions, age_ratings, tags = (
+game_titles, game_descriptions, age_ratings, tags, generated_game_titles = (
     df["Game "].to_list(),
     df["Description"].to_list(),
     df["Age Rating"].to_list(),
     df["Tags"].to_list(),
+    df['Generated Title'].to_list()
 )
 
 api_url = "https://argilla.lmnorg.xyz/"
@@ -25,25 +26,32 @@ def create_dataset(dataset_name: str, workspace_name: str):
         fields=[
             rg.TextField(
                 name="game_title",
-                title="Machine Generated Titles",
+                title="Game Title",
                 use_markdown=True,
             ),
             rg.TextField(
                 name="game_description",
-                title="Machine Generated Description",
+                title="Input : Game Description",
                 use_markdown=True,
             ),
             rg.TextField(
                 name="age_rating",
-                title="Age Rating",
+                title="Input : Age Rating",
                 use_markdown=True,
             ),
             rg.TextField(
                 name="game_tags",
-                title="Tags related to game",
+                title="Input : Game Tags",
+                use_markdown=True,
+            ),
+
+            rg.TextField(
+                name="generated_game_titles",
+                title="Machine Generated Title",
                 use_markdown=True,
             ),
         ],
+
         questions=[
             rg.RatingQuestion(
                 name="rating",
@@ -53,26 +61,8 @@ def create_dataset(dataset_name: str, workspace_name: str):
                 required=True,
             ),
             rg.TextQuestion(
-                name="revised_game_title",
-                title="Suggest a better game title",
-                required=False,
-                use_markdown=True,
-            ),
-            rg.TextQuestion(
-                name="revised_game_description",
-                title="Suggest a better game description",
-                required=False,
-                use_markdown=True,
-            ),
-            rg.TextQuestion(
-                name="revised_age_rating",
-                title="Suggest the correct age group",
-                required=False,
-                use_markdown=True,
-            ),
-            rg.TextQuestion(
-                name="revised_game_tags",
-                title="Suggest a list of better tags",
+                name="revised_generated_game_titles",
+                title="Suggest a list of better game titles",
                 required=False,
                 use_markdown=True,
             ),
@@ -92,7 +82,7 @@ def create_dataset(dataset_name: str, workspace_name: str):
     return dataset
 
 def create_and_push_record(
-    game_titles, game_descriptions, age_ratings, tags, dataset_name, workspace_name
+    game_titles, game_descriptions, age_ratings, tags, generated_game_titles, dataset_name, workspace_name
 ):
 
     feedbackDB = rg.FeedbackDataset.from_argilla(
@@ -106,18 +96,12 @@ def create_and_push_record(
                 "game_description": game_descriptions[i],
                 "age_rating": age_ratings[i],
                 "game_tags": tags[i],
+                "generated_game_titles": generated_game_titles[i],
             },
             suggestions=[
                 rg.SuggestionSchema(
-                    question_name="revised_game_title", value=game_titles[i]
+                    question_name="revised_generated_game_titles", value=generated_game_titles[i]
                 ),
-                rg.SuggestionSchema(
-                    question_name="revised_game_description", value=game_descriptions[i]
-                ),
-                rg.SuggestionSchema(
-                    question_name="revised_age_rating", value=age_ratings[i]
-                ),
-                rg.SuggestionSchema(question_name="revised_game_tags", value=tags[i]),
                 rg.SuggestionSchema(
                     question_name="user_suggestions",
                     value="Provide feedback for the generated response",
@@ -130,8 +114,8 @@ def create_and_push_record(
     print("Dataset pushed successfully!")
 
 
-dataset = create_dataset("argilla-title-rag", "argilla")
+# dataset = create_dataset("argilla-title-rag", "argilla")
 
 create_and_push_record(
-    game_titles, game_descriptions, age_ratings, tags, "argilla-title-rag", "argilla"
+    game_titles, game_descriptions, age_ratings, tags, generated_game_titles, "argilla-title-rag", "argilla"
 )
