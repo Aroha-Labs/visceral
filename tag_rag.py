@@ -180,7 +180,7 @@ def rag_flow(prompt):
 
 
 base_prompt = """{}
-Based on the above game data, for this game title,game description, age rating suggest a single game tag out of {}. Return the game tag only and no other text.
+Based on the above game data, for this game title,game description, age rating suggest four game tags out of {}. Return the game tag only and no other text.
 {}
 """
 suggested_tags = []
