@@ -7,7 +7,7 @@ load_dotenv()
 client = OpenAI()
 
 train_df = pd.read_csv('train.csv')
-test_df = pd.read_csv('test.csv')
+test_df = pd.read_csv('evalset.csv')
 
 def rag_flow(prompt):
     completion = client.chat.completions.create(
