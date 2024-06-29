@@ -1,0 +1,25 @@
+[project]
+name = "visceral-poc"
+version = "0.1.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Hamid Raza", email = "git@hamidlab.com"},
+]
+dependencies = [
+    "pandas>=2.2.2",
+    "openai>=1.35.7",
+    "python-dotenv>=1.0.1",
+    "fastapi>=0.111.0",
+    "uvicorn>=0.30.1",
+]
+requires-python = "==3.11.*"
+readme = "README.md"
+license = {text = "MIT"}
+
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.scripts]
+_.env_file = ".env"
+dev = "uvicorn main:app --reload --app-dir ./src/visceral_poc"

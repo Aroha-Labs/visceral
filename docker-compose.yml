@@ -1,0 +1,12 @@
+services:
+  visceral-flows:
+    build: .
+    container_name: visceral-flows
+    restart: unless-stopped
+    env_file: .env
+    networks:
+      - infra_services_network
+
+networks:
+  infra_services_network:
+    external: true
