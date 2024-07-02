@@ -180,7 +180,9 @@ def rag_flow(prompt):
 
 
 base_prompt = """{}
-Based on the above game data, for this game title,game description, age rating suggest four game tags out of {}. Return the game tag only and no other text.
+Based on the above game data, for this game title,game description, age rating suggest 4 game tags out of {}. Return the game tag only and no other text.
+Response should strictly follow the below format:
+["tag1", "tag2", "tag3", "tag4"]
 {}
 """
 suggested_tags = []
@@ -195,9 +197,9 @@ for index, row in test_df.iterrows():
     suggested_tag = rag_flow(prompt)
     suggested_tags.append(suggested_tag)
 
-    print("Actual Tag:", row["Tags"])
-    print("Generated Titles:\n", suggested_tag)
+    # print("Actual Tag:", row["Tags"])
+    # print("Generated Titles:\n", suggested_tag)
 
 test_df["Generated Tag"] = suggested_tags
-output_csv = "rag_generated_tags.csv"
+output_csv = "rag_generated_tags_2.csv"
 test_df.to_csv(output_csv, index=False)

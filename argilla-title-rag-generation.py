@@ -26,7 +26,7 @@ def create_dataset(dataset_name: str, workspace_name: str):
         fields=[
             rg.TextField(
                 name="game_title",
-                title="Game Title",
+                title="Original Game Title",
                 use_markdown=True,
             ),
             rg.TextField(
@@ -47,7 +47,7 @@ def create_dataset(dataset_name: str, workspace_name: str):
 
             rg.TextField(
                 name="generated_game_titles",
-                title="Machine Generated Title",
+                title="Machine Generated Titles",
                 use_markdown=True,
             ),
         ],
@@ -114,8 +114,8 @@ def create_and_push_record(
     print("Dataset pushed successfully!")
 
 
-dataset = create_dataset("argilla-title-finetuned", "argilla")
+dataset = create_dataset("visceral_finetuned_generated_titles", "argilla")
 
 create_and_push_record(
-    game_titles, game_descriptions, age_ratings, tags, generated_game_titles, "argilla-title-finetuned", "argilla"
+    game_titles, game_descriptions, age_ratings, tags, generated_game_titles, "visceral_finetuned_generated_titles", "argilla"
 )

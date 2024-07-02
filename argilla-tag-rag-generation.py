@@ -2,14 +2,14 @@ import argilla as rg
 import pandas as pd
 from argilla._constants import DEFAULT_API_KEY
 
-df = pd.read_csv("finetune_generated_tags.csv")
+df = pd.read_csv("rag_generated_tags_2.csv")
 
 game_titles, game_descriptions, age_ratings, tags, generated_tags = (
     df["Game "].to_list(),
     df["Description"].to_list(),
     df["Age Rating"].to_list(),
     df["Tags"].to_list(),
-    df["Generated Tags"].to_list(),
+    df["Generated Tag"].to_list(),
 )
 
 api_url = "https://argilla.lmnorg.xyz/"
@@ -27,22 +27,22 @@ def create_dataset(dataset_name: str, workspace_name: str):
         fields=[
             rg.TextField(
                 name="game_title",
-                title="Machine Generated Titles",
+                title="Machine Generated Title",
                 use_markdown=True,
             ),
             rg.TextField(
                 name="game_description",
-                title="Game Description",
+                title="Input: Game Description",
                 use_markdown=True,
             ),
             rg.TextField(
                 name="age_rating",
-                title="Age Rating",
+                title="Input: Age Rating",
                 use_markdown=True,
             ),
             rg.TextField(
                 name="game_tags",
-                title="Tags related to game",
+                title="Original Tags",
                 use_markdown=True,
             ),
             rg.TextField(
@@ -120,7 +120,7 @@ def create_and_push_record(
     print("Dataset pushed successfully!")
 
 
-dataset = create_dataset("argilla-tags-finetuned", "argilla")
+dataset = create_dataset("visceral_rag_generated_tags", "argilla")
 
 create_and_push_record(
     game_titles,
@@ -128,6 +128,6 @@ create_and_push_record(
     age_ratings,
     tags,
     generated_tags,
-    "argilla-tags-finetuned",
+    "visceral_rag_generated_tags",
     "argilla",
 )
