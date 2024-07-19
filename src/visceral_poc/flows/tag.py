@@ -1,5 +1,7 @@
 import pandas as pd
 from openai import OpenAI
+import json
+
 
 client = OpenAI()
 
@@ -155,8 +157,10 @@ game_tags = [
     "ZoneWars",
 ]
 
+game_tags = [s.lower() for s in game_tags]
+
 train_df = pd.read_csv("train.csv")
-test_df = pd.read_csv("evalset.csv")
+# test_df = pd.read_csv("evalset.csv")
 
 
 def rag_flow(prompt):
@@ -173,24 +177,38 @@ def rag_flow(prompt):
 
     return completion.choices[0].message.content
 
+def get_tags(prompt):
+    generated_tags = rag_flow(prompt)
+    items_list = json.loads(generated_tags)
+    return items_list
 
-# input = { description, age_rating, tags }
+# input = { description, age_rating, title }
 def generate_tags(input: dict):
     base_prompt = """{}
-Based on the above game data, for this game title,game description, age rating suggest four game tags out of {}. Return the game tag only and no other text.
+Based on the above game data, for this game title,game description, age rating suggest 4 game tags out of {}. The tags should belong to the list only and adhere. Return the game tag only and no other text.
+Response should strictly follow the below format:
+["tag1", "tag2", "tag3", "tag4"]
 {}
 """
     age_rating = input["age_rating"]
-    tags = input["tags"]
+    title = input["title"]
     description = input["description"]
 
     filtered_df = train_df[train_df["Age Rating"] == age_rating]
     retrieved_text = filtered_df.to_string()
-    input_text = description + "\n" + age_rating + "\n" + tags
+    input_text = description + "\n" + age_rating + "\n" + title
     prompt = base_prompt.format(retrieved_text, tags, input_text)
-    generated_tag = rag_flow(prompt)
+    tags=[]
+    for iter in range(5):
+        for tag in get_tags(prompt):
+            if tag not in tags and tag in game_tags:
+                tags.append(tag)
+            if len(tags) == 4:
+                break
+        if len(tags) == 4:
+                break
 
-    return generated_tag
+    return tags
 
 
 # base_prompt = """{}

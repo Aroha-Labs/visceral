@@ -1,5 +1,6 @@
 import pandas as pd
 from openai import OpenAI
+import json
 
 client = OpenAI()
 
@@ -20,6 +21,10 @@ def rag_flow(prompt):
 
     return completion.choices[0].message.content
 
+def get_titles(prompt):
+    generated_title = rag_flow(prompt)
+    items_list = json.loads(generated_title)
+    return items_list
 
 # input = { description, age_rating, tags }
 def generate_titles(input: dict):
@@ -27,7 +32,7 @@ def generate_titles(input: dict):
     Generate 5 game titles based on the input description, age rating and tags.
     """
     base_prompt = """{}
-Based on the above game data, for this game description, age rating and tags generate 5 game titles. Return the titles only and no other text.
+Based on the above game data, for this game description, age rating and tags generate 5 game titles with each title not exceeding 15 characters. Return the titles only and no other text in the format ["title1","title2","title3","title4","title5"].
 {}
 """
     age_rating = input["age_rating"]
@@ -38,9 +43,14 @@ Based on the above game data, for this game description, age rating and tags gen
     retrieved_text = filtered_df.to_string()
     input_text = description + "\n" + age_rating + "\n" + tags
     prompt = base_prompt.format(retrieved_text, input_text)
-    generated_title = rag_flow(prompt)
-
-    return generated_title
+    titles = []
+    while len(titles) < 5:
+        for title in get_titles(prompt):
+            if title not in titles and len(title) < 15 and all(len(word) < 6 for word in title.split()):
+                titles.append(title)
+            if len(titles) == 5:
+                break
+    return titles
 
 
 # print(
