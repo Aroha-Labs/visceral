@@ -197,7 +197,7 @@ Response should strictly follow the below format:
     filtered_df = train_df[train_df["Age Rating"] == age_rating]
     retrieved_text = filtered_df.to_string()
     input_text = description + "\n" + age_rating + "\n" + title
-    prompt = base_prompt.format(retrieved_text, tags, input_text)
+    prompt = base_prompt.format(retrieved_text, game_tags, input_text)
     tags=[]
     for iter in range(5):
         for tag in get_tags(prompt):
