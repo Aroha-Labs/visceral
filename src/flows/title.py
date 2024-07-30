@@ -52,7 +52,7 @@ Based on the above game data, for this game description, age rating and tags gen
                 titles.append(title)
             if len(titles) == 5:
                 break
-    return titles
+    return ', '.join(titles)
 
 
 # print(
