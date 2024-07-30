@@ -165,7 +165,7 @@ train_df = pd.read_csv("train.csv")
 
 def rag_flow(prompt):
     completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
@@ -211,25 +211,12 @@ Response should strictly follow the below format:
     return tags
 
 
-# base_prompt = """{}
-# Based on the above game data, for this game title,game description, age rating suggest four game tags out of {}. Return the game tag only and no other text.
-# {}
-# """
-# suggested_tags = []
-# for index, row in test_df.iterrows():
-#     age_rating = row["Age Rating"]
-#     filtered_df = train_df[train_df["Age Rating"] == age_rating]
-#     retrieved_text = filtered_df.to_string()
-#     input_text = row[["Game ", "Description", "Age Rating"]].to_string(
-#         index=False, header=False
+# print(
+#     generate_tags(
+#         {
+#             "description": "Mining & Harvesting - Claim Pets - Earn Keys - Keys Increase Production - Keys are saved - Boss Battle Replayable Tycoon",
+#             "age_rating": "12+",
+#             "title": "PAL TYCOON",
+#         }
 #     )
-#     prompt = base_prompt.format(retrieved_text, game_tags, input_text)
-#     suggested_tag = rag_flow(prompt)
-#     suggested_tags.append(suggested_tag)
-
-#     print("Actual Tag:", row["Tags"])
-#     print("Generated Titles:\n", suggested_tag)
-
-# test_df["Generated Tag"] = suggested_tags
-# output_csv = "rag_generated_tags.csv"
-# test_df.to_csv(output_csv, index=False)
+# )

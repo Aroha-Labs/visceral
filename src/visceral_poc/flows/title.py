@@ -9,7 +9,7 @@ train_df = pd.read_csv("./train.csv")
 
 def rag_flow(prompt):
     completion = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o",
         messages=[
             {
                 "role": "system",
@@ -38,6 +38,8 @@ Based on the above game data, for this game description, age rating and tags gen
     age_rating = input["age_rating"]
     tags = input["tags"]
     description = input["description"]
+    max_title_length = input["max_title_length"]
+    max_word_length = input["max_word_length"]
 
     filtered_df = train_df[train_df["Age Rating"] == age_rating]
     retrieved_text = filtered_df.to_string()
@@ -46,7 +48,7 @@ Based on the above game data, for this game description, age rating and tags gen
     titles = []
     while len(titles) < 5:
         for title in get_titles(prompt):
-            if title not in titles and len(title) < 15 and all(len(word) < 6 for word in title.split()):
+            if title not in titles and len(title) < max_title_length and all(len(word) < max_word_length for word in title.split()):
                 titles.append(title)
             if len(titles) == 5:
                 break
@@ -56,9 +58,11 @@ Based on the above game data, for this game description, age rating and tags gen
 # print(
 #     generate_titles(
 #         {
-#             "Description": "A game about a detective solving a",
-#             "Age Rating": "12+",
-#             "Tags": "Adventure, Puzzle",
+#             "description": "A game about a detective solving a",
+#             "age_rating": "12+",
+#             "tags": "Adventure, Puzzle",
+#             "max_title_length": 15,
+#             "max_word_length": 6,
 #         }
 #     )
 # )

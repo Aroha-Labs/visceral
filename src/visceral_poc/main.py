@@ -19,6 +19,8 @@ class GenerateTitlePayload(BaseModel):
     age_rating: str = Field(..., description="Age rating")
     description: str = Field(..., description="Game description")
     tags: str = Field(..., description="Comma separated tags")
+    max_title_length: int = Field(..., description="Maximum length of the title")
+    max_word_length: int = Field(..., description="Maximum length of the word in the title")
 
 class GenerateTagPayload(BaseModel):
     age_rating: str = Field(..., description="Age rating")
