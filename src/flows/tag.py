@@ -208,7 +208,7 @@ Response should strictly follow the below format:
         if len(tags) == 4:
                 break
 
-    return tags
+    return ', '.join(tags)
 
 
 # print(
