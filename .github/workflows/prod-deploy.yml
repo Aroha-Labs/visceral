@@ -1,0 +1,26 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Production Server
+        run: |
+          curl -X POST https://nyx.arohalabs.tech/deploy \
+          -H "Content-Type: application/json" \
+          -d '{
+                "repo": "git@github.com:Aroha-Labs/visceral-poc.git",
+                "name": "visceral-flows",
+                "path": "/",
+                "port": 8000,
+                "environment": "prod"
+              }'

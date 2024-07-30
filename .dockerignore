@@ -1,0 +1,8 @@
+__pycache__
+__pypackages__
+.git
+tag_finetuned_model/
+tests/
+title_finetuned_model/
+workflow-notes/
+.pdm-python

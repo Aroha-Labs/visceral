@@ -1,11 +1,37 @@
+x-common: &common
+  build: .
+  restart: unless-stopped
+  env_file: .env
+  networks:
+    - infra_services_network
+
 services:
-  visceral-flows:
-    build: .
-    container_name: visceral-flows
-    restart: unless-stopped
-    env_file: .env
-    networks:
-      - infra_services_network
+  local:
+    <<: *common
+    ports:
+      - "${LOCAL_PORT:-8000}:8000"
+    container_name: local-visceral-flows
+    profiles: ["local"]
+
+  stg:
+    <<: *common
+    container_name: stg-visceral-flows
+    profiles: ["stg"]
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "stg-visceral-flows"
+
+  prod:
+    <<: *common
+    container_name: prod-visceral-flows
+    profiles: ["prod"]
+    logging:
+      driver: gelf
+      options:
+        gelf-address: "udp://localhost:12201"
+        tag: "prod-visceral-flows"
 
 networks:
   infra_services_network:
