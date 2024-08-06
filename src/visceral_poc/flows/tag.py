@@ -159,7 +159,7 @@ game_tags = [
 
 game_tags = [s.lower() for s in game_tags]
 
-train_df = pd.read_csv("train.csv")
+train_df = pd.read_csv("./training(6-8-24).csv")
 # test_df = pd.read_csv("evalset.csv")
 
 
@@ -185,7 +185,7 @@ def get_tags(prompt):
 # input = { description, age_rating, title }
 def generate_tags(input: dict):
     base_prompt = """{}
-Based on the above game data, for this game title,game description, age rating suggest 4 game tags out of {}. The tags should belong to the list only and adhere. Return the game tag only and no other text.
+Based on the above game data, for this game title,game description, age rating and genre suggest 4 game tags out of {}. The tags should belong to the list only and adhere to the list. Return the game tag only and no other text.
 Response should strictly follow the below format:
 ["tag1", "tag2", "tag3", "tag4"]
 {}
@@ -193,10 +193,11 @@ Response should strictly follow the below format:
     age_rating = input["age_rating"]
     title = input["title"]
     description = input["description"]
+    genre = input["genre"]
 
-    filtered_df = train_df[train_df["Age Rating"] == age_rating]
+    filtered_df = train_df[train_df["Genre"] == genre]
     retrieved_text = filtered_df.to_string()
-    input_text = description + "\n" + age_rating + "\n" + title
+    input_text = description + "\n" + age_rating + "\n" + title + "\n" + genre
     prompt = base_prompt.format(retrieved_text, game_tags, input_text)
     tags=[]
     for iter in range(5):
@@ -214,9 +215,10 @@ Response should strictly follow the below format:
 # print(
 #     generate_tags(
 #         {
-#             "description": "Mining & Harvesting - Claim Pets - Earn Keys - Keys Increase Production - Keys are saved - Boss Battle Replayable Tycoon",
+#             "description": "📦 CLASSIC BOX FIGHTS🐠 BOXED LIKE A FISH🤯 200 PUMP IS BACK🏆 WINNER GETS GOLD PUMP💾 ELIMINATIONS & WINS SAVE",
 #             "age_rating": "12+",
-#             "title": "PAL TYCOON",
+#             "title": "BOX PVP 📦",
+#             "genre": "PvP"
 #         }
 #     )
 # )

@@ -4,7 +4,7 @@ import json
 
 client = OpenAI()
 
-train_df = pd.read_csv("./train.csv")
+train_df = pd.read_csv("./training(6-8-24).csv")
 
 
 def rag_flow(prompt):
@@ -29,21 +29,21 @@ def get_titles(prompt):
 # input = { description, age_rating, tags }
 def generate_titles(input: dict):
     """
-    Generate 5 game titles based on the input description, age rating and tags.
+    Generate 5 game titles based on the input description, age rating and genre.
     """
     base_prompt = """{}
-Based on the above game data, for this game description, age rating and tags generate 5 game titles with each title not exceeding 15 characters. Return the titles only and no other text in the format ["title1","title2","title3","title4","title5"].
+Based on the above game data, for this game description, age rating and genre generate 5 game titles. Return the titles only and no other text in the format ["title1","title2","title3","title4","title5"].
 {}
 """
     age_rating = input["age_rating"]
-    tags = input["tags"]
+    genre = input["genre"]
     description = input["description"]
     max_title_length = input["max_title_length"]
     max_word_length = input["max_word_length"]
 
-    filtered_df = train_df[train_df["Age Rating"] == age_rating]
+    filtered_df = train_df[train_df["Genre"] == genre]
     retrieved_text = filtered_df.to_string()
-    input_text = description + "\n" + age_rating + "\n" + tags
+    input_text = description + "\n" + age_rating + "\n" + genre
     prompt = base_prompt.format(retrieved_text, input_text)
     titles = []
     while len(titles) < 5:
@@ -58,11 +58,11 @@ Based on the above game data, for this game description, age rating and tags gen
 # print(
 #     generate_titles(
 #         {
-#             "description": "A game about a detective solving a",
+#             "description": "📦 CLASSIC BOX FIGHTS🐠 BOXED LIKE A FISH🤯 200 PUMP IS BACK🏆 WINNER GETS GOLD PUMP💾 ELIMINATIONS & WINS SAVE",
 #             "age_rating": "12+",
-#             "tags": "Adventure, Puzzle",
-#             "max_title_length": 15,
-#             "max_word_length": 6,
+#             "genre":"PvP",
+#             "max_title_length": 25,
+#             "max_word_length": 7,
 #         }
 #     )
 # )
