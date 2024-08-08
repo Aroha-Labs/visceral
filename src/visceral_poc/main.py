@@ -18,7 +18,7 @@ class AgeRatingsEnum(str, Enum):
 class GenerateTitlePayload(BaseModel):
     age_rating: str = Field(..., description="Age rating")
     description: str = Field(..., description="Game description")
-    tags: str = Field(..., description="Comma separated tags")
+    genre: str = Field(..., description="Game genre")
     max_title_length: int = Field(..., description="Maximum length of the title")
     max_word_length: int = Field(
         ..., description="Maximum length of the word in the title"
@@ -29,6 +29,7 @@ class GenerateTagPayload(BaseModel):
     age_rating: str = Field(..., description="Age rating")
     description: str = Field(..., description="Game description")
     title: str = Field(..., description="Comma separated titles")
+    genre: str = Field(..., description="Game genre")
 
 
 @app.post("/api/tags")
