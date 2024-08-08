@@ -1,7 +1,15 @@
-FROM python:3.11-buster
-WORKDIR /app
-RUN pip install pdm
-COPY . /app
-RUN pdm sync
-EXPOSE 8000
+ARG PYTHON_BASE=3.10-slim
+FROM python:$PYTHON_BASE AS builder
+
+WORKDIR /project
+
+RUN pip install -U pdm
+
+ENV PDM_CHECK_UPDATE=false
+
+COPY pyproject.toml pdm.lock README.md ./
+RUN pdm install --check --prod --no-editable
+
+COPY . .
+
 CMD ["pdm", "start"]

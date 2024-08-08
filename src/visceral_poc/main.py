@@ -1,7 +1,7 @@
 from enum import Enum
 from pydantic import BaseModel, Field
-from flows.title import generate_titles
-from flows.tag import generate_tags
+from src.flows.title import generate_titles
+from src.flows.tag import generate_tags
 
 from fastapi import FastAPI
 
@@ -20,7 +20,10 @@ class GenerateTitlePayload(BaseModel):
     description: str = Field(..., description="Game description")
     genre: str = Field(..., description="Game genre")
     max_title_length: int = Field(..., description="Maximum length of the title")
-    max_word_length: int = Field(..., description="Maximum length of the word in the title")
+    max_word_length: int = Field(
+        ..., description="Maximum length of the word in the title"
+    )
+
 
 class GenerateTagPayload(BaseModel):
     age_rating: str = Field(..., description="Age rating")
