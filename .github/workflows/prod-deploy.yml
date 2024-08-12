@@ -15,7 +15,7 @@ jobs:
 
       - name: Deploy to Production Server
         run: |
-          curl -X POST https://nyx.arohalabs.tech/deploy \
+          curl -X -v POST https://nyx.arohalabs.tech/deploy \
           -H "Content-Type: application/json" \
           -d '{
                 "repo": "git@github.com:Aroha-Labs/visceral-poc.git",
