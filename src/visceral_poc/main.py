@@ -1,11 +1,13 @@
 from enum import Enum
 from pydantic import BaseModel, Field
+from prometheus_fastapi_instrumentator import Instrumentator
 from src.flows.title import generate_titles
 from src.flows.tag import generate_tags
 
 from fastapi import FastAPI
 
 app = FastAPI()
+Instrumentator().instrument(app).expose(app=app, endpoint="/metrics")
 
 
 class AgeRatingsEnum(str, Enum):
