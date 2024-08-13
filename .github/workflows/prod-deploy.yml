@@ -13,14 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Production Server
-        run: |
-          curl -X -v POST https://nyx.arohalabs.tech/deploy \
-          -H "Content-Type: application/json" \
-          -d '{
-                "repo": "git@github.com:Aroha-Labs/visceral-poc.git",
-                "name": "visceral-flows",
-                "path": "/",
-                "port": 8000,
-                "environment": "prod"
-              }'
+      - name: Deploy and Check Service
+        uses: Aroha-Labs/nyx-deployment-action@main
+        with:
+          name: "visceral-flows"
+          environment: "prod"
+          port: "8000"
