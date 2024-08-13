@@ -42,3 +42,7 @@ def read_root(payload: GenerateTagPayload):
 @app.post("/api/title")
 def read_root(payload: GenerateTitlePayload):
     return generate_titles(dict(payload))
+
+@app.get("/health")
+def health_check():
+    return {"status": "OK"}
