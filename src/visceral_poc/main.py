@@ -25,6 +25,7 @@ class GenerateTitlePayload(BaseModel):
     max_word_length: int = Field(
         ..., description="Maximum length of the word in the title"
     )
+    title_style: str = Field(..., description="Title Style")
 
 
 class GenerateTagPayload(BaseModel):

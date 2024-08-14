@@ -16,18 +16,18 @@ Check that logging is properly set up for effective debugging.
 
 Verify that heartbeat checks are active to ensure the service is operational.
 
-- [ ] **ELK Stack**
-  - [ ] Check that Elasticsearch is receiving heartbeat data.
-  - [ ] Verify Kibana displays this service's heartbeat data correctly.
+- [x] **ELK Stack**
+  - [x] Check that Elasticsearch is receiving heartbeat data.
+  - [x] Verify Kibana displays this service's heartbeat data correctly.
 
 ### Performance Monitoring
 
 Ensure New Relic is monitoring the performance effectively.
 
-- [ ] **New Relic Setup**
-  - [ ] Check New Relic agents are active on this service.
-  - [ ] Ensure alerts for performance issues are configured.
-  - [ ] Verify deployment markers are used correctly for updates.
+- [x] **New Relic Setup**
+  - [x] Check New Relic agents are active on this service.
+  - [x] Ensure alerts for performance issues are configured.
+  - [x] Verify deployment markers are used correctly for updates.
 
 ### Analytics Integration
 
@@ -42,9 +42,9 @@ Confirm analytics are providing insights into service usage.
 
 Make sure metrics are being monitored and visualized properly.
 
-- [ ] **Prometheus**
+- [x] **Prometheus**
   - [x] \*Verify metrics collection is configured for this service.
-  - [ ] Check that alerts are set up for any anomalies.
+  - [x] Check that alerts are set up for any anomalies.
 - [ ] **Grafana**
   - [ ] Confirm dashboards are showing accurate service metrics.
 
@@ -52,8 +52,8 @@ Make sure metrics are being monitored and visualized properly.
 
 Check that code quality and testing standards are met.
 
-- [ ] **SonarQube**
-  - [ ] Ensure code is regularly analyzed and meets quality standards.
+- [x] **SonarQube**
+  - [x] Ensure code is regularly analyzed and meets quality standards.
 - [ ] **Code Coverage**
   - [ ] Verify code coverage metrics meet the required threshold.
 - [ ] **API Testing**
@@ -66,4 +66,3 @@ Review the CI/CD setups to confirm they are efficient and accurate.
 - [ ] **GitHub Actions**
   - [x] Ensure workflows are properly configured for continuous integration.
   - [ ] Check that builds and tests run successfully with each update.
-
