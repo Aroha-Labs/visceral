@@ -32,7 +32,7 @@ def generate_titles(input: dict):
     Generate 5 game titles based on the input description, age rating and genre.
     """
     base_prompt = """{}
-Based on the above game data, for this game description, age rating and genre generate 5 game titles. Return the titles only and no other text in the format ["title1","title2","title3","title4","title5"].
+Based on the above game data, for this game description, age rating and genre generate 5 game titles in the {} style. Return the titles only and no other text in the format ["title1","title2","title3","title4","title5"].
 {}
 """
     age_rating = input["age_rating"]
@@ -40,11 +40,15 @@ Based on the above game data, for this game description, age rating and genre ge
     description = input["description"]
     max_title_length = input["max_title_length"]
     max_word_length = input["max_word_length"]
+    title_style = input["title_style"]
+
+    if(title_style == "optimal"):
+        title_style = "above"
 
     filtered_df = train_df[train_df["Genre"] == genre]
     retrieved_text = filtered_df.to_string()
     input_text = description + "\n" + age_rating + "\n" + genre
-    prompt = base_prompt.format(retrieved_text, input_text)
+    prompt = base_prompt.format(retrieved_text, title_style, input_text)
     titles = []
     while len(titles) < 5:
         for title in get_titles(prompt):
@@ -63,6 +67,7 @@ Based on the above game data, for this game description, age rating and genre ge
 #             "genre":"PvP",
 #             "max_title_length": 25,
 #             "max_word_length": 7,
+#             "title_style": "optimal"
 #         }
 #     )
 # )
