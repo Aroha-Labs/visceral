@@ -158,9 +158,9 @@ game_tags = [
 ]
 
 game_tags = [s.lower() for s in game_tags]
+trending_tags = ['1v1', 'deathrun', 'team deathmatch', 'tycoon', 'zonewars']
 
 train_df = pd.read_csv("./training(6-8-24).csv")
-# test_df = pd.read_csv("evalset.csv")
 
 
 def rag_flow(prompt):
@@ -185,7 +185,7 @@ def get_tags(prompt):
 # input = { description, age_rating, title }
 def generate_tags(input: dict):
     base_prompt = """{}
-Based on the above game data, for this game title,game description, age rating and genre suggest 4 game tags out of {}. The tags should belong to the list only and adhere to the list. Return the game tag only and no other text.
+Based on the above game data, for this game title, game description, age rating and genre suggest 4 game tags out of {}. The first tag should ideally be a trending tag if possible. The trending tags are {}. The tags should belong to the list only and adhere to the list. Return the game tag only and no other text.
 Response should strictly follow the below format:
 ["tag1", "tag2", "tag3", "tag4"]
 {}
@@ -198,7 +198,7 @@ Response should strictly follow the below format:
     filtered_df = train_df[train_df["Genre"] == genre]
     retrieved_text = filtered_df.to_string()
     input_text = description + "\n" + age_rating + "\n" + title + "\n" + genre
-    prompt = base_prompt.format(retrieved_text, game_tags, input_text)
+    prompt = base_prompt.format(retrieved_text, game_tags, trending_tags, input_text)
     tags=[]
     for iter in range(5):
         for tag in get_tags(prompt):
@@ -215,10 +215,11 @@ Response should strictly follow the below format:
 # print(
 #     generate_tags(
 #         {
-#             "description": "📦 CLASSIC BOX FIGHTS🐠 BOXED LIKE A FISH🤯 200 PUMP IS BACK🏆 WINNER GETS GOLD PUMP💾 ELIMINATIONS & WINS SAVE",
+#             "description": " main version⭐ 16 Players⭐ Last one standing wins⭐ Action Packed⭐ Frequent Updates with all the new content!",
 #             "age_rating": "12+",
-#             "title": "BOX PVP 📦",
+#             "title": "Tilted Zone Wars",
 #             "genre": "PvP"
 #         }
 #     )
 # )
+
