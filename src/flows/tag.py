@@ -184,6 +184,7 @@ def get_tags(prompt):
 
 # input = { description, age_rating, title }
 def generate_tags(input: dict):
+    global game_tags, trending_tags
     base_prompt = """{}
 Based on the above game data, for this game title, game description, age rating and genre suggest 4 game tags out of {}. The first tag should ideally be a trending tag if possible. The trending tags are {}. The tags should belong to the list only and adhere to the list. Return the game tag only and no other text.
 Response should strictly follow the below format:
@@ -194,7 +195,14 @@ Response should strictly follow the below format:
     title = input["title"]
     description = input["description"]
     genre = input["genre"]
+    exclude_tags = input["exclude_tags"]
 
+    if exclude_tags:
+        exclude_tags = exclude_tags.split(",")
+        exclude_tags = [tag.strip() for tag in exclude_tags]
+        game_tags = [tag for tag in game_tags if tag not in exclude_tags]
+        trending_tags = [tag for tag in trending_tags if tag not in exclude_tags]
+    
     filtered_df = train_df[train_df["Genre"] == genre]
     retrieved_text = filtered_df.to_string()
     input_text = description + "\n" + age_rating + "\n" + title + "\n" + genre
@@ -218,7 +226,8 @@ Response should strictly follow the below format:
 #             "description": " main version⭐ 16 Players⭐ Last one standing wins⭐ Action Packed⭐ Frequent Updates with all the new content!",
 #             "age_rating": "12+",
 #             "title": "Tilted Zone Wars",
-#             "genre": "PvP"
+#             "genre": "PvP",
+#             "exclude_tags": "runner, race"
 #         }
 #     )
 # )

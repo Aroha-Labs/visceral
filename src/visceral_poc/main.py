@@ -33,6 +33,7 @@ class GenerateTagPayload(BaseModel):
     description: str = Field(..., description="Game description")
     title: str = Field(..., description="Comma separated titles")
     genre: str = Field(..., description="Game genre")
+    exclude_tags: str = Field(..., description="Comma separated tags to exclude")
 
 
 @app.post("/api/tags")
