@@ -4,7 +4,8 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from src.flows.title import generate_titles
 from src.flows.tag import generate_tags
 from src.flows.thumbnail_critique import generate_thumbnail_critique
-from fastapi import FastAPI, UploadFile, File, Form
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi.responses import FileResponse
 from supabase import create_client, Client
 import base64
 import os
@@ -90,3 +91,18 @@ async def upload_image(file: UploadFile = File(...)):
     
     except Exception as e:
         return {"error": str(e)}
+
+
+
+@app.get("/get-thumbnail-sample/{genre}")
+async def get_image(genre: str):
+    IMAGE_FOLDER = "thumbnail-samples"
+    # Construct the full file path
+    image_path = os.path.join(IMAGE_FOLDER, f"{genre}.png")
+    
+    # Check if the file exists
+    if not os.path.exists(image_path):
+        raise HTTPException(status_code=404, detail="Image not found")
+    
+    # Return the image as a FileResponse
+    return FileResponse(image_path)
