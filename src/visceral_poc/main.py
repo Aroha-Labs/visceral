@@ -4,10 +4,13 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from src.flows.title import generate_titles
 from src.flows.tag import generate_tags
 from src.flows.thumbnail_critique import generate_thumbnail_critique
+from src.flows.generate_thumbnail_guidelines import process_images
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import FileResponse
 from supabase import create_client, Client
 import base64
+import zipfile
+import io
 import os
 
 app = FastAPI()
@@ -106,3 +109,11 @@ async def get_image(genre: str):
     
     # Return the image as a FileResponse
     return FileResponse(image_path)
+
+@app.post("/generate-thumbnail-guidelines")
+async def generate_thumbnail_guidelines(file: UploadFile = File(...)):
+    zip_contents = await file.read()
+    
+    # Create a ZipFile object
+    zip_file = zipfile.ZipFile(io.BytesIO(zip_contents))
+    return process_images(zip_file)['response']
