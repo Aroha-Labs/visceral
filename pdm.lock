@@ -5,7 +5,7 @@
 groups = ["default"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:f483f766b3b7aff6168b1aa736aad351cc5186f83eaa65547f0f3c49a195add7"
+content_hash = "sha256:f32a6379937f982f9602df89f6e9e9a9a90c6b5f1da94440a96eef790fe6c898"
 
 [[metadata.targets]]
 requires_python = "==3.11.*"
@@ -81,6 +81,28 @@ dependencies = [
 files = [
     {file = "annotated_types-0.7.0-py3-none-any.whl", hash = "sha256:1f02e8b43a8fbbc3f3e0d4f0f4bfc8131bcb4eebe8849b8e5c773f3a1c582a53"},
     {file = "annotated_types-0.7.0.tar.gz", hash = "sha256:aff07c09a53a08bc8cfccb9c85b05f1aa9a2a6f23728d790723543408344ce89"},
+]
+
+[[package]]
+name = "anthropic"
+version = "0.35.0"
+requires_python = ">=3.7"
+summary = "The official Python library for the anthropic API"
+groups = ["default"]
+dependencies = [
+    "anyio<5,>=3.5.0",
+    "cached-property; python_version < \"3.8\"",
+    "distro<2,>=1.7.0",
+    "httpx<1,>=0.23.0",
+    "jiter<1,>=0.4.0",
+    "pydantic<3,>=1.9.0",
+    "sniffio",
+    "tokenizers>=0.13.0",
+    "typing-extensions<5,>=4.7",
+]
+files = [
+    {file = "anthropic-0.35.0-py3-none-any.whl", hash = "sha256:777983989ed9e444eb4a6d92dad84027f14a6639cba6f48772c0078d51959828"},
+    {file = "anthropic-0.35.0.tar.gz", hash = "sha256:d2f998246413c309a7770d1faa617500f505377a04ab45a13a66f8559daf3742"},
 ]
 
 [[package]]
@@ -265,6 +287,17 @@ files = [
 ]
 
 [[package]]
+name = "filelock"
+version = "3.16.1"
+requires_python = ">=3.8"
+summary = "A platform independent file lock."
+groups = ["default"]
+files = [
+    {file = "filelock-3.16.1-py3-none-any.whl", hash = "sha256:2082e5703d51fbf98ea75855d9d5527e33d8ff23099bec374a134febee6946b0"},
+    {file = "filelock-3.16.1.tar.gz", hash = "sha256:c249fbfcd5db47e5e2d6d62198e565475ee65e4831e2561c8e313fa7eb961435"},
+]
+
+[[package]]
 name = "frozenlist"
 version = "1.4.1"
 requires_python = ">=3.8"
@@ -288,6 +321,17 @@ files = [
     {file = "frozenlist-1.4.1-cp311-cp311-win_amd64.whl", hash = "sha256:fb3c2db03683b5767dedb5769b8a40ebb47d6f7f45b1b3e3b4b51ec8ad9d9825"},
     {file = "frozenlist-1.4.1-py3-none-any.whl", hash = "sha256:04ced3e6a46b4cfffe20f9ae482818e34eba9b5fb0ce4056e4cc9b6e212d09b7"},
     {file = "frozenlist-1.4.1.tar.gz", hash = "sha256:c037a86e8513059a2613aaba4d817bb90b9d9b6b69aace3ce9c877e8c8ed402b"},
+]
+
+[[package]]
+name = "fsspec"
+version = "2024.9.0"
+requires_python = ">=3.8"
+summary = "File-system specification"
+groups = ["default"]
+files = [
+    {file = "fsspec-2024.9.0-py3-none-any.whl", hash = "sha256:a0947d552d8a6efa72cc2c730b12c41d043509156966cca4fb157b0f2a0c574b"},
+    {file = "fsspec-2024.9.0.tar.gz", hash = "sha256:4b0afb90c2f21832df142f292649035d80b421f60a9e1c027802e5a0da2b04e8"},
 ]
 
 [[package]]
@@ -412,6 +456,26 @@ files = [
 ]
 
 [[package]]
+name = "huggingface-hub"
+version = "0.25.1"
+requires_python = ">=3.8.0"
+summary = "Client library to download and publish models, datasets and other repos on the huggingface.co hub"
+groups = ["default"]
+dependencies = [
+    "filelock",
+    "fsspec>=2023.5.0",
+    "packaging>=20.9",
+    "pyyaml>=5.1",
+    "requests",
+    "tqdm>=4.42.1",
+    "typing-extensions>=3.7.4.3",
+]
+files = [
+    {file = "huggingface_hub-0.25.1-py3-none-any.whl", hash = "sha256:a5158ded931b3188f54ea9028097312cb0acd50bffaaa2612014c3c526b44972"},
+    {file = "huggingface_hub-0.25.1.tar.gz", hash = "sha256:9ff7cb327343211fbd06e2b149b8f362fd1e389454f3f14c6db75a4999ee20ff"},
+]
+
+[[package]]
 name = "hyperframe"
 version = "6.0.1"
 requires_python = ">=3.6.1"
@@ -445,6 +509,28 @@ dependencies = [
 files = [
     {file = "jinja2-3.1.4-py3-none-any.whl", hash = "sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d"},
     {file = "jinja2-3.1.4.tar.gz", hash = "sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369"},
+]
+
+[[package]]
+name = "jiter"
+version = "0.6.0"
+requires_python = ">=3.8"
+summary = "Fast iterable JSON parser."
+groups = ["default"]
+files = [
+    {file = "jiter-0.6.0-cp311-cp311-macosx_10_12_x86_64.whl", hash = "sha256:f99d23cc67cc838bca32bfb0d0cab7b90c2a87992ce1e18746a0d1cf6ab55306"},
+    {file = "jiter-0.6.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:f66c17bebd62f6c69c33d66c7db371a34e358627d903271c885936d4fd0c0ffc"},
+    {file = "jiter-0.6.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:a03402ec1cdc466e69481bd44475435816916d45a4191032743b827e6ca9ab09"},
+    {file = "jiter-0.6.0-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:1ad22496f468f7f26e2444a0d19ac1a85139d1902d4700fdec974427a0b99e2d"},
+    {file = "jiter-0.6.0-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ec179d9afcca6211a0496edf6f8a728ea386bbc222d5a69ba35bdfb496de1737"},
+    {file = "jiter-0.6.0-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:e149d0c96f4cd25bfd5871d9c2d0c7988b7312a87604a59990a320b94b0b6dd7"},
+    {file = "jiter-0.6.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:9789042c4535f13dbbb7019b9e9c04ed4eafda3ed26b735a61eabab414c4565d"},
+    {file = "jiter-0.6.0-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.whl", hash = "sha256:cebe8ffcd36addaaae523e1dc48df998c927ed1000b9331d1828a0b682d312b7"},
+    {file = "jiter-0.6.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:25679f3579e641670782894cef5b7df7db47738e129bba3dd30b5639bb792d3c"},
+    {file = "jiter-0.6.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:49e81adb4f0b1ef27777e5bdd72817209acf0376721bafab9b6bb3d17aa5d21d"},
+    {file = "jiter-0.6.0-cp311-none-win32.whl", hash = "sha256:aaa581d55d2340b0d8978fba3ff38a8d2751495b838222de7bc240e760a2e778"},
+    {file = "jiter-0.6.0-cp311-none-win_amd64.whl", hash = "sha256:889443dfa07a3db6f493a427c33114f3e9dacb70bb4966d636475772c8afb8e8"},
+    {file = "jiter-0.6.0.tar.gz", hash = "sha256:5b3e2b9e8fbd57d176b97e5530a20514cd20d7f98d02e11140b309537897dac0"},
 ]
 
 [[package]]
@@ -625,6 +711,27 @@ files = [
     {file = "pandas-2.2.2-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:0cace394b6ea70c01ca1595f839cf193df35d1575986e484ad35c4aeae7266c1"},
     {file = "pandas-2.2.2-cp311-cp311-win_amd64.whl", hash = "sha256:873d13d177501a28b2756375d59816c365e42ed8417b41665f346289adc68d24"},
     {file = "pandas-2.2.2.tar.gz", hash = "sha256:9e79019aba43cb4fda9e4d983f8e88ca0373adbb697ae9c6c43093218de28b54"},
+]
+
+[[package]]
+name = "pillow"
+version = "10.4.0"
+requires_python = ">=3.8"
+summary = "Python Imaging Library (Fork)"
+groups = ["default"]
+files = [
+    {file = "pillow-10.4.0-cp311-cp311-macosx_10_10_x86_64.whl", hash = "sha256:0a9ec697746f268507404647e531e92889890a087e03681a3606d9b920fbee3c"},
+    {file = "pillow-10.4.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:dfe91cb65544a1321e631e696759491ae04a2ea11d36715eca01ce07284738be"},
+    {file = "pillow-10.4.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:5dc6761a6efc781e6a1544206f22c80c3af4c8cf461206d46a1e6006e4429ff3"},
+    {file = "pillow-10.4.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:5e84b6cc6a4a3d76c153a6b19270b3526a5a8ed6b09501d3af891daa2a9de7d6"},
+    {file = "pillow-10.4.0-cp311-cp311-manylinux_2_28_aarch64.whl", hash = "sha256:bbc527b519bd3aa9d7f429d152fea69f9ad37c95f0b02aebddff592688998abe"},
+    {file = "pillow-10.4.0-cp311-cp311-manylinux_2_28_x86_64.whl", hash = "sha256:76a911dfe51a36041f2e756b00f96ed84677cdeb75d25c767f296c1c1eda1319"},
+    {file = "pillow-10.4.0-cp311-cp311-musllinux_1_2_aarch64.whl", hash = "sha256:59291fb29317122398786c2d44427bbd1a6d7ff54017075b22be9d21aa59bd8d"},
+    {file = "pillow-10.4.0-cp311-cp311-musllinux_1_2_x86_64.whl", hash = "sha256:416d3a5d0e8cfe4f27f574362435bc9bae57f679a7158e0096ad2beb427b8696"},
+    {file = "pillow-10.4.0-cp311-cp311-win32.whl", hash = "sha256:7086cc1d5eebb91ad24ded9f58bec6c688e9f0ed7eb3dbbf1e4800280a896496"},
+    {file = "pillow-10.4.0-cp311-cp311-win_amd64.whl", hash = "sha256:cbed61494057c0f83b83eb3a310f0bf774b09513307c434d4366ed64f4128a91"},
+    {file = "pillow-10.4.0-cp311-cp311-win_arm64.whl", hash = "sha256:f5f0c3e969c8f12dd2bb7e0b15d5c468b51e5017e01e2e867335c81903046a22"},
+    {file = "pillow-10.4.0.tar.gz", hash = "sha256:166c1cd4d24309b30d61f79f4a9114b7b2313d7450912277855ff5dfd7cd4a06"},
 ]
 
 [[package]]
@@ -943,6 +1050,31 @@ dependencies = [
 files = [
     {file = "supafunc-0.6.1-py3-none-any.whl", hash = "sha256:01aeeeb4bf429977664454a32c86418345140faf6d2e6eb0636d52e4547c5fbb"},
     {file = "supafunc-0.6.1.tar.gz", hash = "sha256:3c8761e3999336ccdb7550498a395fd08afc8469382f55ea56f7f640e5a909aa"},
+]
+
+[[package]]
+name = "tokenizers"
+version = "0.20.0"
+requires_python = ">=3.7"
+summary = ""
+groups = ["default"]
+dependencies = [
+    "huggingface-hub<1.0,>=0.16.4",
+]
+files = [
+    {file = "tokenizers-0.20.0-cp311-cp311-macosx_10_12_x86_64.whl", hash = "sha256:6636b798b3c4d6c9b1af1a918bd07c867808e5a21c64324e95318a237e6366c3"},
+    {file = "tokenizers-0.20.0-cp311-cp311-macosx_11_0_arm64.whl", hash = "sha256:5ec603e42eaf499ffd58b9258162add948717cf21372458132f14e13a6bc7172"},
+    {file = "tokenizers-0.20.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:cce124264903a8ea6f8f48e1cc7669e5ef638c18bd4ab0a88769d5f92debdf7f"},
+    {file = "tokenizers-0.20.0-cp311-cp311-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:07bbeba0231cf8de07aa6b9e33e9779ff103d47042eeeb859a8c432e3292fb98"},
+    {file = "tokenizers-0.20.0-cp311-cp311-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:06c0ca8397b35d38b83a44a9c6929790c1692957d88541df061cb34d82ebbf08"},
+    {file = "tokenizers-0.20.0-cp311-cp311-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:ca6557ac3b83d912dfbb1f70ab56bd4b0594043916688e906ede09f42e192401"},
+    {file = "tokenizers-0.20.0-cp311-cp311-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:2a5ad94c9e80ac6098328bee2e3264dbced4c6faa34429994d473f795ec58ef4"},
+    {file = "tokenizers-0.20.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:0b5c7f906ee6bec30a9dc20268a8b80f3b9584de1c9f051671cb057dc6ce28f6"},
+    {file = "tokenizers-0.20.0-cp311-cp311-musllinux_1_1_aarch64.whl", hash = "sha256:31e087e9ee1b8f075b002bfee257e858dc695f955b43903e1bb4aa9f170e37fe"},
+    {file = "tokenizers-0.20.0-cp311-cp311-musllinux_1_1_x86_64.whl", hash = "sha256:c3124fb6f3346cb3d8d775375d3b429bf4dcfc24f739822702009d20a4297990"},
+    {file = "tokenizers-0.20.0-cp311-none-win32.whl", hash = "sha256:a4bb8b40ba9eefa621fdcabf04a74aa6038ae3be0c614c6458bd91a4697a452f"},
+    {file = "tokenizers-0.20.0-cp311-none-win_amd64.whl", hash = "sha256:2b709d371f1fe60a28ef0c5c67815952d455ca7f34dbe7197eaaed3cc54b658e"},
+    {file = "tokenizers-0.20.0.tar.gz", hash = "sha256:39d7acc43f564c274085cafcd1dae9d36f332456de1a31970296a6b8da4eac8d"},
 ]
 
 [[package]]
