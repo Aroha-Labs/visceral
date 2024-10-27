@@ -1,29 +1,31 @@
 import base64
 import requests
 import os
-import markdown
+from supabase import create_client, Client
 
 # OpenAI API Key
 api_key = os.environ.get("OPENAI_API_KEY")
+
+# Supabase configuration
+supabase_url = os.environ.get("SUPABASE_URL")
+supabase_key = os.environ.get("SUPABASE_KEY")
+supabase: Client = create_client(supabase_url, supabase_key)
 
 # Function to encode the image
 def encode_image(image_file):
   return base64.b64encode(image_file.read()).decode('utf-8')
 
-def read_genre_guidelines(genre):
-    file_path = f"thumbnail-guidelines/{genre}.md"
-    try:
-        with open(file_path, 'r') as file:
-            md_content = file.read()
-            html_content = markdown.markdown(md_content)
-            return html_content
-    except FileNotFoundError:
+def fetch_genre_guidelines(genre):
+    response = supabase.table("thumbnail_guidelines").select("guidelines").eq("genre", genre).execute()
+    if response.data:
+        return response.data[0]['guidelines']
+    else:
         return f"No guidelines found for genre: {genre}"
 
 def generate_thumbnail_critique(payload, image):
     genre = payload['genre']
 
-    genre_guidelines = read_genre_guidelines(genre)
+    genre_guidelines = fetch_genre_guidelines(genre)
     base64_image = encode_image(image.file)
 
     headers = {

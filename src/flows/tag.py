@@ -1,7 +1,9 @@
 import pandas as pd
 from openai import OpenAI
 import json
-
+import os
+import io
+from src.flows.data_management_services import fetch_csv
 
 client = OpenAI()
 
@@ -160,8 +162,12 @@ game_tags = [
 game_tags = [s.lower() for s in game_tags]
 trending_tags = ['1v1', 'deathrun', 'team deathmatch', 'tycoon', 'zonewars']
 
-train_df = pd.read_csv("./training(6-8-24).csv")
-
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+table_name = "training_data"
+csv_string = fetch_csv(supabase_url, supabase_key, table_name)
+train_df = pd.read_csv(io.StringIO(csv_string))
+client = OpenAI()
 
 def rag_flow(prompt):
     completion = client.chat.completions.create(

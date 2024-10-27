@@ -1,11 +1,17 @@
 import pandas as pd
 from openai import OpenAI
 import json
+from src.flows.data_management_services import fetch_csv
+import os
+import io
 
+
+supabase_url = os.getenv("SUPABASE_URL")
+supabase_key = os.getenv("SUPABASE_KEY")
+table_name = "training_data"
+csv_string = fetch_csv(supabase_url, supabase_key, table_name)
+train_df = pd.read_csv(io.StringIO(csv_string))
 client = OpenAI()
-
-train_df = pd.read_csv("./training(6-8-24).csv")
-
 
 def rag_flow(prompt):
     completion = client.chat.completions.create(

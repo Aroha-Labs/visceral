@@ -1,0 +1,20 @@
+name: Deploy to stg
+ 
+on:
+  push:
+    branches:
+      - develop
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+ 
+      - name: Deploy and Check Service
+        uses: Aroha-Labs/nyx-deployment-action@main
+        with:
+          repo: "git@github.com:Aroha-Labs/visceral-poc.git#develop"
+          environment: "stg"
+          port: "8000"
