@@ -2,13 +2,13 @@
 
 ## Data Management Endpoints
 
-### Upload Training Data
+### Upload Map Data
 - **POST** `/api/data/upload-map-data`
 - Uploads CSV training data to Supabase
 - **Input**: CSV file
 
 
-### Fetch Training Data
+### Fetch Map Data
 - **GET** `/api/data/fetch-map-data`
 - Downloads the current training dataset
 - **Response**: CSV file
