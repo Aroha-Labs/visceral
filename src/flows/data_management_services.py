@@ -126,3 +126,17 @@ def title_tag_etl(data: str) -> str:
         print(f"Error processing CSV data: {str(e)}")
         return None
 
+def fetch_thumbnail_guidelines(genre: str, supabase_key: str, supabase_url: str, table_name: str) -> str:
+    supabase = create_client(supabase_url, supabase_key)
+    try:
+        # Fetch the guidelines for the specified genre
+        response = supabase.table(table_name).select("guidelines").eq("genre", genre).execute()
+        
+        if response.data and len(response.data) > 0:
+            return response.data[0]['guidelines']
+        else:
+            print(f"No guidelines found for genre: {genre}")
+            return None
+    except Exception as e:
+        print(f"Error fetching guidelines from Supabase: {str(e)}")
+        return None

@@ -1,73 +1,107 @@
-# Visceral System Documentation
+# API Documentation
 
-## System Overview
-A comprehensive Visceral system for managing Fortnite map content through data management and generation services, leveraging LLMs for content generation.
+## Data Management Endpoints
 
-## API Reference
+### Upload Training Data
+- **POST** `/api/data/upload-map-data`
+- Uploads CSV training data to Supabase
+- **Input**: CSV file
 
-### Data Management Service
-- `upload_csv`
-  - Purpose: Upload CSV file containing title and tag data for processing
-  - Input: CSV file
-  - Note: At any time we have only once csv
 
-- `fetch_csv`
-  - Purpose: Retrieve previously uploaded title and tag data
-  - Output: CSV data
+### Fetch Training Data
+- **GET** `/api/data/fetch-map-data`
+- Downloads the current training dataset
+- **Response**: CSV file
 
-- `updated_thumbnail_guidelines`
-  - Purpose: Update the thumbnail guidelines
-  - Input: text - genre, guidelines
-  - Note: This is a manual process 
+### Update Thumbnail Guidelines
+- **POST** `/api/data/update-thumbnail-guidelines`
+- Updates or creates thumbnail guidelines for a specific genre
+- **Input**: 
+  - `genre`: Game genre
+  - `guidelines`: Thumbnail design guidelines
 
-- `upload_thumbnail_images_for_guidelines`
-  - Purpose: Upload reference images for guideline creation
-  - Input: Image files
 
-- `upload_recommended_thumbnails_by_genre`
-  - Purpose: Upload genre-specific recommended thumbnails
-  - Input: Categorized image files
-  - Note: This is manually generated
+### Upload Thumbnail Images for Guidelines
+- **POST** `/api/data/upload-thumbnail-images-for-guidelines`
+- Uploads reference images for thumbnail guidelines
+- **Input**:
+  - `genre`: Game genre
+  - `file`: Image file
 
-- `title_etl`
-  - Purpose: Process and transform title data
-  - Input: Raw title data
-  - Output: Processed title data
 
-- `tag_etl`
-  - Purpose: Process and transform tag data
-  - Input: Raw tag data
-  - Output: Processed tag data
+### Upload Recommended Thumbnails
+- **POST** `/api/data/upload-recommended-thumbnails-by-genre`
+- Uploads or updates recommended thumbnails for a genre
+- **Input**:
+  - `genre`: Game genre
+  - `file`: Thumbnail image
 
-- `fetch_recommended_thumbnails`
-  - Purpose: Retrieve recommended thumbnail guidelines
-  - Output: Stored thumbnail guidelines
 
-### Generation Service (LLM-based)
-- `generate_title`
-  - Purpose: Create optimized titles using processed data
-  - Input: Processed data
-  - Output: Generated title
-  - Note: Uses LLM for generation
+### Fetch Recommended Thumbnails
+- **GET** `/api/data/fetch-recommended-thumbnails/{genre}`
+- Retrieves recommended thumbnail for specified genre
+- **Response**: PNG image
 
-- `generate_tags`
-  - Purpose: Create relevant tags using processed data
-  - Input: Processed data
-  - Output: Generated tags
-  - Note: Uses LLM for generation
+### Process Title and Tag Data
+- **POST** `/api/data/title-tag-etl`
+- Processes and transforms title and tag data
+- **Input**: CSV/Excel file
+- **Response**: Processed CSV data
 
-- `generate_critique_thumbnail`
-  - Purpose: Create critique by analyzing the thumbnails
-  - Input: Thumbnail image
-  - Output: Analysis feedback
-  - Note: Uses LLM for analysis
+### Fetch Thumbnail Guidelines
+- **GET** `/api/data/fetch-thumbnail-guidelines/{genre}`
+- Retrieves thumbnail design guidelines for specified genre
+- **Response**: 
+  ```json
+  {
+    "guidelines": "string"
+  }
+  ```
 
-- `generate_thumbnail_guidelines`
-  - Purpose: Create guidelines for thumbnail generation
-  - Output: Thumbnail creation guidelines
-  - Note: Uses LLM for guideline generation
-  - Internal Process, we uploaded the thumbnails in claude, get the guidelines and update them
+## Generation Endpoints
 
-## V2
-- title & tag data management has to move to postgres completely
-- automate the guidelines
+### Generate Title
+- **POST** `/api/generate/generate-title`
+- Generates game titles based on input parameters
+- **Input**:
+  ```json
+  {
+    "age_rating": "string",
+    "description": "string",
+    "genre": "string",
+    "max_title_length": "integer",
+    "max_word_length": "integer",
+    "title_style": "string"
+  }
+  ```
+- **Response**: Comma-separated list of generated titles
+
+### Generate Tags
+- **POST** `/api/generate/generate-tags`
+- Generates relevant tags for a game
+- **Input**:
+  ```json
+  {
+    "age_rating": "string",
+    "description": "string",
+    "title": "string",
+    "genre": "string",
+    "exclude_tags": "string"
+  }
+  ```
+- **Response**: Comma-separated list of generated tags
+
+### Generate Thumbnail Critique
+- **POST** `/api/generate/generate-thumbnail-critique`
+- Analyzes and critiques game thumbnails
+- **Input**:
+  - `genre`: Game genre
+  - `image`: Thumbnail image file
+- **Response**: Detailed critique and suggestions
+
+### Generate Thumbnail Guidelines
+- **POST** `/api/generate/generate-thumbnail-guidelines`
+- Analyzes multiple thumbnails to generate guidelines
+- **Input**: ZIP file containing thumbnail images
+- **Response**: Analysis of thumbnail composition trends
+

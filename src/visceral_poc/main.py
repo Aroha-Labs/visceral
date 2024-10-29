@@ -5,7 +5,7 @@ from src.flows.title import generate_titles
 from src.flows.tag import generate_tags
 from src.flows.thumbnail_critique import generate_thumbnail_critique
 from src.flows.generate_thumbnail_guidelines import process_images
-from src.flows.data_management_services import upload_csv, fetch_csv, update_thumbnail_guidelines, fetch_recommended_thumbnails, title_tag_etl
+from src.flows.data_management_services import upload_csv, fetch_csv, update_thumbnail_guidelines, fetch_recommended_thumbnails, title_tag_etl, fetch_thumbnail_guidelines
 from fastapi import FastAPI, UploadFile, File, Form, HTTPException, Response
 from fastapi.responses import FileResponse
 from supabase import create_client, Client
@@ -48,13 +48,14 @@ class GenerateTagPayload(BaseModel):
 class GenerateThumbnailCritiquePayload(BaseModel):
     genre: str = Field(..., description="Game genre")
 
-@app.post("/api/upload-csv")
+@app.post("/api/data/upload-map-data")
 async def upload_csv_endpoint(file: UploadFile = File(...)):
     csv_content = await file.read()
     csv_file = io.StringIO(csv_content.decode('utf-8'))
     result = upload_csv(csv_file, os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"), "training_data")
     return {"message": "CSV uploaded successfully"}
-@app.get("/api/fetch-csv")
+
+@app.get("/api/data/fetch-map-data")
 async def fetch_csv_endpoint():
     csv_data = fetch_csv(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"), "training_data")
     
@@ -70,12 +71,12 @@ async def fetch_csv_endpoint():
         filename="training_data.csv"
     )
 
-@app.post("/api/update-thumbnail-guidelines")
+@app.post("/api/data/update-thumbnail-guidelines")
 async def update_thumbnail_guidelines_endpoint(genre: str = Form(...), guidelines: str = Form(...)):
     result = update_thumbnail_guidelines(genre, os.getenv("SUPABASE_KEY"), os.getenv("SUPABASE_URL"), "thumbnail_guidelines", guidelines)
-    return {"message": "Thumbnail guidelines updated", "result": result}
+    return {"message": "Thumbnail guidelines updated"}
 
-@app.post("/api/upload-thumbnail-images-for-guidelines")
+@app.post("/api/data/upload-thumbnail-images-for-guidelines")
 async def upload_thumbnail_images_for_guidelines(genre: str = Form(...), file: UploadFile = File(...)):
     supabase: Client = create_client(
         os.getenv("SUPABASE_URL"),
@@ -103,7 +104,7 @@ async def upload_thumbnail_images_for_guidelines(genre: str = Form(...), file: U
         return {"error": str(e)}
 
 
-@app.post("/api/upload-recommended-thumbnails-by-genre")
+@app.post("/api/data/upload-recommended-thumbnails-by-genre")
 async def upload_recommended_thumbnails_by_genre(genre: str = Form(...), file: UploadFile = File(...)):
     supabase: Client = create_client(
         os.getenv("SUPABASE_URL"),
@@ -139,13 +140,13 @@ async def upload_recommended_thumbnails_by_genre(genre: str = Form(...), file: U
     except Exception as e:
         return {"error": str(e)}
     
-@app.post("/api/title-tag-etl")
+@app.post("/api/data/title-tag-etl")
 async def title_tag_etl_endpoint(file: UploadFile = File(...)):
     content = await file.read()
     processed_data = title_tag_etl(content)
-    return {"processed_data": processed_data}
+    return  processed_data
 
-@app.get("/api/fetch-recommended-thumbnails/{genre}")
+@app.get("/api/data/fetch-recommended-thumbnails/{genre}")
 async def fetch_recommended_thumbnails_endpoint(genre: str):
     image = fetch_recommended_thumbnails(genre, os.getenv("SUPABASE_KEY"), os.getenv("SUPABASE_URL"), "recommended_thumbnails")
     if image:
@@ -157,15 +158,29 @@ async def fetch_recommended_thumbnails_endpoint(genre: str):
     else:
         raise HTTPException(status_code=404, detail="Image not found")
 
-@app.post("/api/generate-title")
+@app.get("/api/data/fetch-thumbnail-guidelines/{genre}")
+async def fetch_thumbnail_guidelines_endpoint(genre: str):
+    guidelines = fetch_thumbnail_guidelines(
+        genre, 
+        os.getenv("SUPABASE_KEY"), 
+        os.getenv("SUPABASE_URL"), 
+        "thumbnail_guidelines"
+    )
+    if guidelines:
+        return guidelines
+    else:
+        raise HTTPException(status_code=404, detail="Guidelines not found")
+
+
+@app.post("/api/generate/generate-title")
 async def generate_title_endpoint(payload: GenerateTitlePayload):
     return generate_titles(dict(payload))
 
-@app.post("/api/generate-tags")
+@app.post("/api/generate/generate-tags")
 async def generate_tags_endpoint(payload: GenerateTagPayload):
     return generate_tags(dict(payload))
 
-@app.post("/api/generate-thumbnail-critique")
+@app.post("/api/generate/generate-thumbnail-critique")
 async def generate_thumbnail_critique_endpoint(
     genre: str = Form(...),
     image: UploadFile = File(...)
@@ -173,7 +188,7 @@ async def generate_thumbnail_critique_endpoint(
     payload = {"genre": genre}
     return generate_thumbnail_critique(payload, image)
 
-@app.post("/api/generate-thumbnail-guidelines")
+@app.post("/api/generate/generate-thumbnail-guidelines")
 async def generate_thumbnail_guidelines_endpoint(file: UploadFile = File(...)):
     zip_contents = await file.read()
     zip_file = zipfile.ZipFile(io.BytesIO(zip_contents))
