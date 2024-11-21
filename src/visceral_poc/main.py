@@ -197,4 +197,3 @@ async def generate_thumbnail_guidelines_endpoint(file: UploadFile = File(...)):
 @app.get("/health")
 def health_check():
     return {"status": "OK"}
-
