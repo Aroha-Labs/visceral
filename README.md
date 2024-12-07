@@ -80,8 +80,6 @@ These schemas will set up all necessary tables and relationships required for th
      docker compose --profile prod up --build
      ```
 
-   Note: Staging and production environments include GELF logging configuration for log aggregation.
-
 ## Local Development Setup
 
 1. Install PDM (Python Dependency Manager):  
@@ -94,7 +92,7 @@ These schemas will set up all necessary tables and relationships required for th
    # Navigate to project directory
    cd visceral-poc
    
-   # Initialize PDM environment (this creates a virtual environment)
+   # Initialize PDM environment
    pdm install
    ```
 

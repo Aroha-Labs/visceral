@@ -16,20 +16,12 @@ services:
     <<: *common
     container_name: stg-visceral-flows
     profiles: ["stg"]
-    logging:
-      driver: gelf
-      options:
-        gelf-address: "udp://localhost:12201"
-        tag: "stg-visceral-flows"
+
   prod:
     <<: *common
     container_name: prod-visceral-flows
     profiles: ["prod"]
-    logging:
-      driver: gelf
-      options:
-        gelf-address: "udp://localhost:12201"
-        tag: "prod-visceral-flows"
+
 
 networks:
   infra_services_network:
