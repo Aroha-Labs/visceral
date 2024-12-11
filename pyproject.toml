@@ -27,5 +27,5 @@ distribution = false
 
 [tool.pdm.scripts]
 _.env_file = ".env"
-dev = "python3 -m uvicorn src.visceral_poc.main:app --reload"
-start = "python3 -m uvicorn src.visceral_poc.main:app --port 8000 --host 0.0.0.0"
+dev = "python3 -m uvicorn src.visceral.main:app --reload"
+start = "python3 -m uvicorn src.visceral.main:app --port 8000 --host 0.0.0.0"
